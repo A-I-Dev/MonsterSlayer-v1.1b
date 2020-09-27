@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vue Basics</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="styles.css" />
+		<script src="https://unpkg.com/vue@next" defer></script>
+		<script src="app.js" defer></script>
+	</head>
+	<body>
+		<header>
+			<h1>Monster Slayer</h1>
+		</header>
+		<div id="game">
+			{{ turns }}
+			<section id="monster" class="container">
+				<h2>Monster Health</h2>
+				<div class="healthbar">
+					<div
+						class="healthbar__value"
+						:style="monsterHealthPercentage"
+					></div>
+				</div>
+			</section>
+			<section id="player" class="container">
+				<h2>Your Health</h2>
+				<div class="healthbar">
+					<div
+						class="healthbar__value"
+						:style="playerHealthPercentage"
+					></div>
+				</div>
+			</section>
+			<section class="container" v-if="winner">
+				<h2>Game Over!</h2>
+				<h3 v-if="winner === 'player'">You win!</h3>
+				<h3 v-else-if="winner === 'monster'">You lose!</h3>
+				<h3 v-else>Draw!</h3>
+				<button @click="startGame">Play again</button>
+			</section>
+			<section id="controls" v-else>
+				<button @click="playerAttack">ATTACK</button>
+				<button :disabled="canUseSpAttack" @click="playerSpAttack">
+					SPECIAL ATTACK
+				</button>
+				<button :disabled="canUseHeal" @click="playerHeal">HEAL</button>
+				<button @click="playerSurrender">SURRENDER</button>
+			</section>
+			<section id="log" class="container">
+				<h2>Battle Log</h2>
+				<ul>
+					<li v-for="act in actionsArr">
+						<span
+							:class="{'log--player': act.who === 'You', 'log--monster': act.who === 'Monster'}"
+							>{{ act.who }}</span
+						>
+						{{ act.what }} for
+						<span
+							:class="{'log--damage': act.what === 'attacked', 'log--sp-damage': act.what === 'attacked with magic', 'log--heal': act.what === 'healed'}"
+							>{{ act.amount }}</span
+						>
+					</li>
+				</ul>
+			</section>
+		</div>
+	</body>
+</html>
