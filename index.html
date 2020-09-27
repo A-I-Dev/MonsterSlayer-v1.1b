@@ -62,7 +62,7 @@
 						{{ act.what }} for
 						<span
 							:class="{'log--damage': act.what === 'attacked', 'log--sp-damage': act.what === 'attacked with magic', 'log--heal': act.what === 'healed'}"
-							>{{ act.amount }}</span
+							>{{ act.amount * 123 }}</span
 						>
 					</li>
 				</ul>
